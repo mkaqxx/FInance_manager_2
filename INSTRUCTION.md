@@ -34,7 +34,9 @@
   - Sideloadly установлен на Windows (`~/AppData/Local/Sideloadly`).
   - Подтвержден триггер входа на iOS (NFC/Apple Pay reader + prompt).
 - [x] **0.2. Создание файловой структуры монорепозитория:**
-  - Директории `core/`, `third_party/`, `apps/desktop-win/`, `apps/ios-companion/`, `web-ui/`, `scripts/`.
+  - Директории `core/` (`include/`, `src/bridge`, `src/storage`, `src/domain`, `src/parsers`, `src/sync`, `src/utils`, `tests/`).
+  - Директории `third_party/` (`sqlite3/`, `json/nlohmann/`, `csv-parser/`, `cpp-httplib/`).
+  - Директории `apps/` (`desktop-win/`, `ios-companion/`), `web-ui/`, `scripts/`.
 - [x] **0.3. Каркас iOS-пустышки и CI/CD:**
   - `apps/ios-companion/project.yml` (XcodeGen).
   - SwiftUI-экран с тестом App Group (`group.com.mkaqxx.finance`).
