@@ -1,36 +1,30 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var appGroupStatus: String = "Проверка App Group..."
+    @State private var keychainStatus: String = "Нажмите кнопку для проверки..."
     @State private var testData: String = ""
-
-    let appGroupId = "group.com.mkaqxx.finance"
+    @State private var urlMessage: String = "Ожидание вызова finance://..."
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 24) {
-                Image(systemName: "banknote.fill")
-                    .font(.system(size: 64))
+            VStack(spacing: 20) {
+                Image(systemName: "checkmark.shield.fill")
+                    .font(.system(size: 56))
                     .foregroundStyle(.green)
 
                 Text("Finance Companion")
                     .font(.title2.bold())
-                
-                Text("Тестовая сборка Этапа 0")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
 
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("Статус App Group:")
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("1. Системный Keychain:")
                         .font(.headline)
-                    Text(appGroupStatus)
-                        .font(.footnote)
+                    Text(keychainStatus)
+                        .font(.subheadline)
                         .foregroundStyle(.secondary)
 
                     if !testData.isEmpty {
-                        Divider()
-                        Text("Тестовый Snapshot:")
-                            .font(.headline)
+                        Text("Snapshot из памяти:")
+                            .font(.caption.bold())
                         Text(testData)
                             .font(.caption.monospaced())
                             .padding(8)
@@ -43,47 +37,56 @@ struct ContentView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .background(Color(.systemBackground))
                 .cornerRadius(12)
-                .shadow(color: .black.opacity(0.08), radius: 6)
+                .shadow(color: .black.opacity(0.06), radius: 4)
 
-                Button("Записать тестовый Snapshot") {
-                    writeTestSnapshot()
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("2. Прямой URL-вызов из Shortcuts:")
+                        .font(.headline)
+                    Text(urlMessage)
+                        .font(.subheadline)
+                        .foregroundStyle(.blue)
+                }
+                .padding()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(Color(.systemBackground))
+                .cornerRadius(12)
+                .shadow(color: .black.opacity(0.06), radius: 4)
+
+                Button("Проверить запись и чтение Keychain") {
+                    runKeychainTest()
                 }
                 .buttonStyle(.borderedProminent)
-
-                Button("Обновить данные") {
-                    checkAppGroup()
-                }
-                .buttonStyle(.bordered)
             }
             .padding()
-            .navigationTitle("Автопилот")
+            .navigationTitle("Тест хранилища")
             .onAppear {
-                checkAppGroup()
+                runKeychainTest()
+            }
+            .onOpenURL { url in
+                handleIncomingURL(url)
             }
         }
     }
 
-    private func checkAppGroup() {
-        guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroupId) else {
-            appGroupStatus = "❌ Ошибка: контейнер App Group недоступен.\n(При установке через бесплатный Apple ID в Sideloadly убедитесь, что App Group включен)."
-            return
-        }
-        appGroupStatus = "✅ App Group доступна:\n\(containerURL.path)"
-        let fileURL = containerURL.appendingPathComponent("daily_snapshot.json")
-        if let data = try? Data(contentsOf: fileURL),
-           let str = String(data: data, encoding: .utf8) {
-            testData = str
+    private func runKeychainTest() {
+        let timestamp = ISO8601DateFormatter().string(from: Date())
+        let sampleJSON = "{\"safe_limit_byn\": 45.50, \"status\": \"OK\", \"time\": \"\(timestamp)\"}"
+        guard let data = sampleJSON.data(using: .utf8) else { return }
+
+        if KeychainHelper.save(key: "daily_snapshot", data: data) {
+            if let loaded = KeychainHelper.load(key: "daily_snapshot"),
+               let str = String(data: loaded, encoding: .utf8) {
+                keychainStatus = "✅ Keychain работает на 100%! Данные сохранены и прочитаны."
+                testData = str
+            } else {
+                keychainStatus = "⚠️ Запись прошла, но ошибка при чтении."
+            }
         } else {
-            testData = "Файл daily_snapshot.json пока не создан."
+            keychainStatus = "❌ Ошибка записи в Keychain."
         }
     }
 
-    private func writeTestSnapshot() {
-        guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroupId) else { return }
-        let fileURL = containerURL.appendingPathComponent("daily_snapshot.json")
-        let timestamp = ISO8601DateFormatter().string(from: Date())
-        let sample = "{\"safe_limit_byn\": 45.50, \"status\": \"ACTIVE\", \"updated_at\": \"\(timestamp)\"}"
-        try? sample.write(to: fileURL, atomically: true, encoding: .utf8)
-        checkAppGroup()
+    private func handleIncomingURL(_ url: URL) {
+        urlMessage = "✅ Получен вызов: \(url.absoluteString)"
     }
 }
