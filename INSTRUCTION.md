@@ -40,16 +40,21 @@
   - SwiftUI-экран с тестом App Group (`group.com.mkaqxx.finance`).
   - `ControlWidgetButton` с `$amount.requestValue()`.
   - `.github/workflows/ios-build.yml` для автоматической сборки `.ipa` на macOS.
-- [ ] **0.4. Первый тестовый прогон через GitHub Actions:**
+- [x] **0.4. Первый тестовый прогон через GitHub Actions:**
   - Коммит и пуш в GitHub.
-  - Скачивание `FinanceCompanion.ipa` из артефактов.
-  - Установка через Sideloadly на iPhone и верификация виджета/ввода.
-- [ ] **0.5. Размещение базовых сторонних библиотек (third_party):**
+  - Успешная сборка `.ipa` на виртуальном macOS (Xcode 16 / Swift 6).
+  - Сгенерирован артефакт `FinanceCompanion-ipa`.
+- [x] **0.5. Установка и верификация на iPhone:**
+  - Установка `FinanceCompanion.ipa` через Sideloadly.
+  - Верифицирована работа хранилища Keychain (100% совместимо с бесплатным Apple ID).
+  - Верифицирован прямой прием событий через системный URL Scheme `finance://`.
+  - Подтверждена связка: NFC/Apple Pay терминал -> Shortcuts ввод -> Finance Companion.
+- [ ] **0.6. Размещение базовых сторонних библиотек (third_party):**
   - `sqlite3` (amalgamation).
   - `nlohmann/json`.
   - `vincentlaucsb/csv-parser`.
   - `cpp-httplib`.
-- [ ] **0.6. Настройка базового `CMakeLists.txt` и `CMakePresets.json`.**
+- [ ] **0.7. Настройка базового `CMakeLists.txt` и `CMakePresets.json`.**
 
 ---
 
@@ -118,6 +123,7 @@
 * **Проверка iOS-среды (Этап 0):**
   * Тест iPhone (iOS 27.0.1): триггер «Транзакция» скрыт системой (банк не состоит в Apple Enhanced Reporting).
   * Подтвержден альтернативный системный триггер: *«При поднесении Любая карта к считывателю»* (NFC / Apple Pay на кассе) с действием *«Запросить ввод (Сумма)»*.
-  * Утилита Sideloadly установлена на ПК (`~/AppData/Local/Sideloadly`). Ярлык на Рабочем столе.
-  * Установщик iTunes с драйверами Apple (`iTunes64Setup.exe`) скопирован в папку «Загрузки».
+  * Утилита Sideloadly установлена на ПК (`~/AppData/Local/Sideloadly`).
+  * Сборка и развертывание `.ipa` на GitHub Actions (Xcode 16 / Swift 6) работают стабильно (< 1 мин).
+  * **Решение по хранилищу для бесплатного Apple ID:** подтверждено использование системного **Keychain** (хранение `daily_snapshot`) и URL Scheme `finance://` (прием операций из Shortcuts). Тест на устройстве успешен.
 

@@ -31,3 +31,6 @@ DerivedData/
 Thumbs.db
 desktop.ini
 *.log
+
+# Artifacts
+artifacts/
