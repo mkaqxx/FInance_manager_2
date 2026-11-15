@@ -17,7 +17,7 @@
 
 ### Глобальный план (Дорожная карта)
 
-- [ ] **Этап 0. Подготовка окружения и каркаса монорепозитория**
+- [x] **Этап 0. Подготовка окружения и каркаса монорепозитория**
 - [ ] **Этап 1. Вычислительное ядро `libFinanceCore` (C++23 + SQLite3)**
 - [ ] **Этап 2. Конвейер парсинга выписок и 3-проходной дедупликации**
 - [ ] **Этап 3. Десктопный клиент для Windows (Win32 + WebView2)**
@@ -51,12 +51,17 @@
   - Верифицирована работа хранилища Keychain (100% совместимо с бесплатным Apple ID).
   - Верифицирован прямой прием событий через системный URL Scheme `finance://`.
   - Подтверждена связка: NFC/Apple Pay терминал -> Shortcuts ввод -> Finance Companion.
-- [ ] **0.6. Размещение базовых сторонних библиотек (third_party):**
-  - `sqlite3` (amalgamation).
-  - `nlohmann/json`.
-  - `vincentlaucsb/csv-parser`.
-  - `cpp-httplib`.
-- [ ] **0.7. Настройка базового `CMakeLists.txt` и `CMakePresets.json`.**
+- [x] **0.6. Размещение базовых сторонних библиотек (third_party):**
+  - `sqlite3` (`sqlite3.c`, `sqlite3.h`).
+  - `nlohmann/json` (`json.hpp`).
+  - `vincentlaucsb/csv-parser` (`csv.hpp`).
+  - `cpp-httplib` (`httplib.h`).
+- [x] **0.7. Настройка базового `CMakeLists.txt` и CMake в CLion:**
+  - Корневой `CMakeLists.txt` (C++23, `/utf-8`, `enable_testing()`).
+  - `third_party/CMakeLists.txt` (сборка sqlite3 с макросами WAL/JSON1, interface-цели).
+  - `core/CMakeLists.txt` (статическая библиотека `FinanceCore`, разделение include/src).
+  - Успешная тестовая конфигурация CMake в CLion.
+  - В каждой папке размещен краткий `README.md` с описанием назначения и состава.
 
 ---
 
