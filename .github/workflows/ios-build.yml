@@ -32,6 +32,20 @@ jobs:
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY=""
 
+      - name: Verify and patch Widget Info.plist
+        run: |
+          PLIST="build/Build/Products/Release-iphoneos/FinanceCompanion.app/PlugIns/FinanceWidgets.appex/Info.plist"
+          echo "Checking $PLIST..."
+          if ! /usr/libexec/PlistBuddy -c "Print :NSExtension" "$PLIST" 2>/dev/null; then
+            echo "NSExtension missing in bundle! Injecting with PlistBuddy..."
+            /usr/libexec/PlistBuddy -c "Add :NSExtension dict" "$PLIST"
+            /usr/libexec/PlistBuddy -c "Add :NSExtension:NSExtensionPointIdentifier string com.apple.widgetkit-extension" "$PLIST"
+          else
+            echo "NSExtension already present!"
+          fi
+          echo "--- Full Widget Info.plist ---"
+          /usr/libexec/PlistBuddy -c "Print" "$PLIST"
+
       - name: Package into .ipa
         run: |
           mkdir -p build/Payload

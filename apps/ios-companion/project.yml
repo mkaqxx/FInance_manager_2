@@ -21,10 +21,10 @@ targets:
     deploymentTarget: "18.0"
     sources:
       - path: Sources/App
-    info:
-      path: Resources/FinanceCompanion-Info.plist
     settings:
       base:
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: Resources/FinanceCompanion-Info.plist
         PRODUCT_BUNDLE_IDENTIFIER: com.mkaqxx.FinanceCompanion
         CURRENT_PROJECT_VERSION: 1
         MARKETING_VERSION: "1.0.0"
@@ -38,10 +38,10 @@ targets:
     deploymentTarget: "18.0"
     sources:
       - path: Sources/Widgets
-    info:
-      path: Resources/FinanceWidgets-Info.plist
     settings:
       base:
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: Resources/FinanceWidgets-Info.plist
         PRODUCT_BUNDLE_IDENTIFIER: com.mkaqxx.FinanceCompanion.Widgets
         CURRENT_PROJECT_VERSION: 1
         MARKETING_VERSION: "1.0.0"
