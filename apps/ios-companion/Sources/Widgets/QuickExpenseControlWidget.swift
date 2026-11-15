@@ -15,8 +15,8 @@ struct QuickExpenseControlWidget: ControlWidget {
 }
 
 struct LogQuickExpenseIntent: AppIntent {
-    static var title: LocalizedStringResource = "Записать расход"
-    static var description = IntentDescription("Запрашивает сумму и сохраняет событие в inbox")
+    static let title: LocalizedStringResource = "Записать расход"
+    static let description = IntentDescription("Запрашивает сумму и сохраняет событие в inbox")
 
     @Parameter(title: "Сумма (BYN)", description: "Сумма операции")
     var amount: Double?
