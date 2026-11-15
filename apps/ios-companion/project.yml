@@ -21,13 +21,13 @@ targets:
     deploymentTarget: "18.0"
     sources:
       - path: Sources/App
+    info:
+      path: Resources/FinanceCompanion-Info.plist
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.mkaqxx.FinanceCompanion
-        GENERATE_INFOPLIST_FILE: YES
         CURRENT_PROJECT_VERSION: 1
         MARKETING_VERSION: "1.0.0"
-        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
         CODE_SIGN_ENTITLEMENTS: Resources/FinanceCompanion.entitlements
     dependencies:
       - target: FinanceWidgets
@@ -38,11 +38,11 @@ targets:
     deploymentTarget: "18.0"
     sources:
       - path: Sources/Widgets
+    info:
+      path: Resources/FinanceWidgets-Info.plist
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.mkaqxx.FinanceCompanion.Widgets
-        GENERATE_INFOPLIST_FILE: YES
-        INFOPLIST_KEY_NSExtension_NSExtensionPointIdentifier: com.apple.widgetkit-extension
         CURRENT_PROJECT_VERSION: 1
         MARKETING_VERSION: "1.0.0"
         CODE_SIGN_ENTITLEMENTS: Resources/FinanceWidgets.entitlements
