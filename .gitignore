@@ -34,3 +34,10 @@ desktop.ini
 
 # Artifacts
 artifacts/
+
+# Documentation & Instructions
+INSTRUCTION.md
+instruction*.md
+*.doc
+*.docx
+

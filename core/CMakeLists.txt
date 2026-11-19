@@ -11,6 +11,12 @@ add_library(FinanceCore STATIC
         src/storage/SqliteTransaction.hpp
         src/storage/SchemaMigrations.cpp
         src/storage/SchemaMigrations.hpp
+        src/domain/BudgetMath.cpp
+        src/domain/BudgetMath.hpp
+        src/domain/MoneyRouter.cpp
+        src/domain/MoneyRouter.hpp
+        src/domain/Reconciliation.cpp
+        src/domain/Reconciliation.hpp
 )
 
 # Разделение публичных и приватных путей включения:
