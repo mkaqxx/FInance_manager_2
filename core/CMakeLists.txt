@@ -17,6 +17,8 @@ add_library(FinanceCore STATIC
         src/domain/MoneyRouter.hpp
         src/domain/Reconciliation.cpp
         src/domain/Reconciliation.hpp
+        src/parsers/Encoding.cpp
+        src/parsers/Encoding.hpp
 )
 
 # Разделение публичных и приватных путей включения:
@@ -44,3 +46,9 @@ add_test(NAME MathTests COMMAND math_tests)
 add_executable(storage_tests tests/test_storage.cpp)
 target_link_libraries(storage_tests PRIVATE FinanceCore)
 add_test(NAME StorageTests COMMAND storage_tests)
+
+# Регистрация теста кодировок
+add_executable(encoding_tests tests/test_encoding.cpp)
+target_link_libraries(encoding_tests PRIVATE FinanceCore)
+add_test(NAME EncodingTests COMMAND encoding_tests)
+
